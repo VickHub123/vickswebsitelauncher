@@ -47,7 +47,7 @@
     }
 
     const titulo     = extrairEntre(query, '"b"', '"b1"');
-    const botaoTxt   = extrairEntre(query, '"c"', '"c1"');
+    const botaoTxt   = extrairEntre(query, '"c"', '"c1"') || "";
     const descricao  = extrairEntre(query, '"d"', '"d2"');
     const corBotao   = extrairEntre(query, '"e"', '"e2"') || "#5c2d91";
     const mensagem   = extrairEntre(query, '"f"', '"f2"');
@@ -71,6 +71,7 @@
     function abrirPopup() {
       if (url) {
         window.open(url, "_blank", "width=900,height=600,toolbar=no,menubar=no,scrollbars=yes,resizable=yes");
+        window.close(); // fecha a página atual
       } else if (mensagem) {
         document.getElementById('aviso').textContent = mensagem;
       } else {
