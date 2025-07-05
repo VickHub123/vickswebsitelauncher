@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 80px;
+    }
+    #botao {
+      padding: 15px 30px;
+      font-size: 18px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #botao:hover {
+      filter: brightness(1.1);
+    }
+    #aviso {
+      color: red;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="titulo"></h1>
+  <p id="descricao"></p>
+  <button id="botao" onclick="abrirPopup()">Abrir</button>
+  <div id="aviso"></div>
+
+  <script>
+    const query = decodeURIComponent(window.location.search);
+
+    function extrairEntre(texto, ini, fim) {
+      const i = texto.indexOf(ini);
+      const f = texto.indexOf(fim, i + ini.length);
+      if (i !== -1 && f !== -1) {
+        return texto.substring(i + ini.length, f);
+      }
+      return null;
+    }
+
+    const titulo     = extrairEntre(query, '"b"', '"b1"');
+    const botaoTxt   = extrairEntre(query, '"c"', '"c1"');
+    const descricao  = extrairEntre(query, '"d"', '"d2"');
+    const corBotao   = extrairEntre(query, '"e"', '"e2"') || "#5c2d91";
+    const mensagem   = extrairEntre(query, '"f"', '"f2"');
+    const url        = extrairEntre(query, '"a"', '"a2"');
+
+    if (titulo) {
+      document.getElementById('titulo').textContent = titulo;
+      document.title = titulo;
+    }
+
+    if (descricao) {
+      document.getElementById('descricao').textContent = descricao;
+    }
+
+    if (botaoTxt) {
+      document.getElementById('botao').textContent = botaoTxt;
+    }
+
+    document.getElementById('botao').style.backgroundColor = corBotao;
+
+    function abrirPopup() {
+      if (url) {
+        window.open(url, "_blank", "width=900,height=600,toolbar=no,menubar=no,scrollbars=yes,resizable=yes");
+      } else if (mensagem) {
+        document.getElementById('aviso').textContent = mensagem;
+      } else {
+        document.getElementById('aviso').textContent = "❌ Nenhuma URL válida foi encontrada entre '\"a\"' e '\"a2\"'.";
+      }
+    }
+  </script>
+</body>
+</html>
